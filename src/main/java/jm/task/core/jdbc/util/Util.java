@@ -11,7 +11,7 @@ public class Util {
     private static final String USER = "rootroot";
     private static final String PASSWORD = "root";
 
-    private static Logger log = Logger.getLogger(Util.class.getName());
+    private static final Logger log = Logger.getLogger(Util.class.getName());
 
     private static Connection connection;
 
@@ -26,4 +26,13 @@ public class Util {
         }
         return connection;
     }
+
+//    public static void closeConnection() {
+//        try {
+//            connection.close();
+//            log.log(Level.INFO, "Connection closed" );
+//        } catch (SQLException e) {
+//            log.log(Level.SEVERE, "Connection closed false" );
+//        }
+//    }
 }
