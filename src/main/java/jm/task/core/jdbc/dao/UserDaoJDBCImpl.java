@@ -11,9 +11,8 @@ import java.util.logging.Logger;
 
 public class UserDaoJDBCImpl implements UserDao {
 
-    public static final Logger log = Logger.getLogger(UserDaoJDBCImpl.class.getName());
+    private static final Logger log = Logger.getLogger(UserDaoJDBCImpl.class.getName());
 
-    // По условию задачи требуется
     public UserDaoJDBCImpl() {
         // По условию задачи класс dao должен иметь конструктор пустой/по умолчанию
     }
@@ -39,8 +38,13 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
         String query = "insert into user (name, lastName, age) values (?, ?, ?)";
-        try (Connection connection = Util.getConnection(); Statement statement = connection.createStatement()) {
-            statement.executeUpdate(query);
+        try (Connection connection = Util.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setByte(3, age);
+            preparedStatement.executeUpdate();
+            System.out.println("User с именем — " + name + " добавлен в базу данных");
         } catch (SQLException e) {
             log.log(Level.SEVERE, "Error saving user", e);
         }
@@ -48,8 +52,10 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void removeUserById(long id) {
         String query = "delete from user where id = ?";
-        try (Connection connection = Util.getConnection(); Statement statement = connection.createStatement()) {
-            statement.executeUpdate(query);
+        try (Connection connection = Util.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             log.log(Level.SEVERE, "Error removing user", e);
         }

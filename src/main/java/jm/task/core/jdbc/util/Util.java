@@ -20,19 +20,9 @@ public class Util {
     public static Connection getConnection() {
         try {
             connection = DriverManager.getConnection(URL, USER, PASSWORD);
-            log.log(Level.INFO, "Connection established" );
         } catch (SQLException e) {
             log.log(Level.SEVERE, "Connection false" );
         }
         return connection;
     }
-
-//    public static void closeConnection() {
-//        try {
-//            connection.close();
-//            log.log(Level.INFO, "Connection closed" );
-//        } catch (SQLException e) {
-//            log.log(Level.SEVERE, "Connection closed false" );
-//        }
-//    }
 }
